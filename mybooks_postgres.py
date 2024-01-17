@@ -9,7 +9,7 @@ import requests
 def obtener_datos(url):
     try:
         response = requests.get(url)
-        response.raise_for_status()  # Lanza una excepción para errores HTTP
+        response.raise_for_status() 
         return response.json()
     except requests.exceptions.HTTPError as errh:
         print(f"Error HTTP: {errh}")
@@ -25,9 +25,9 @@ url_api2 = config('URL_API_2')
 # Utilizando ThreadPoolExecutor para realizar las solicitudes en paralelo
 with concurrent.futures.ThreadPoolExecutor() as executor:
     resultados = list(executor.map(obtener_datos, [url_api1, url_api2]))
-    # print(resultados)
+   
 
-# Almacenar los resultados en un archivo JSON
+
 with open('resultados.json', 'w') as archivo:
     json.dump(resultados, archivo)
 
@@ -44,6 +44,7 @@ cursor.execute("""
     )
 """)
 
+   
 # Insertar los resultados en la tabla
 for resultado in resultados:
     print(f" resultado {resultado}")
@@ -54,9 +55,4 @@ for resultado in resultados:
 conexion.commit()
 conexion.close()
 
-############################################
-# for lista in resultados:
-#     # Imprimir cada elemento de la lista
-#     for i, elemento in enumerate(lista):
-#         print(f"Elemento {i}: {elemento}")
-#     print("\n") 
+

@@ -1,2 +1,2 @@
-postgres_config.*
-.env*
+# postgres_config.*
+# .env*
