@@ -55,18 +55,8 @@ cursor.execute("""
 for resultado in resultados:
     print(f" resultado {resultado}")
     cursor.execute("INSERT INTO resultados (data) VALUES (%s)", (json.dumps(resultado),))
-# Iterar sobre la lista y luego sobre las claves y valores de cada diccionario
     
-for diccionario in resultados:
-        print(diccionario)
-        print("\n") 
 
-
-for diccionario in  (json.dump(resultados)):
-      print(type(diccionario))
-      print(diccionario)
-    for  valor in diccionario.items():
-        print(f"{clave}: {valor}")
 # Confirmar los cambios y cerrar la conexión
 conexion.commit()
 conexion.close()
