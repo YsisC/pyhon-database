@@ -1,10 +1,9 @@
-
 from postgres_config import dbConfig
 import psycopg2 as pyo
 import requests
 import concurrent.futures
 import json
-
+from decouple import config  
 import requests
 
 def obtener_datos(url):
@@ -20,10 +19,8 @@ def obtener_datos(url):
         print(f"Error al decodificar JSON: {errJson}")
     return None
 
-
-# URLs de las APIs que deseas consultar
-url_api1 = "https://api.covidtracking.com/v1/us/daily.json"
-url_api2 = "https://api.covidtracking.com/v1/us/daily.json"
+url_api1 = config('URL_API_1')
+url_api2 = config('URL_API_2')
 
 # Utilizando ThreadPoolExecutor para realizar las solicitudes en paralelo
 with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -34,16 +31,12 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
 with open('resultados.json', 'w') as archivo:
     json.dump(resultados, archivo)
 
-# resultados contendrá la información extraída de ambas APIs
-
 
 # Conectar a la base de datos
 conexion = pyo.connect(**dbConfig)
 
-# Crear un cursor para ejecutar comandos SQL
 cursor = conexion.cursor()
 
-# Crear una tabla (si no existe)
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS resultados (
         id SERIAL PRIMARY KEY,
@@ -57,7 +50,7 @@ for resultado in resultados:
     cursor.execute("INSERT INTO resultados (data) VALUES (%s)", (json.dumps(resultado),))
     
 
-# Confirmar los cambios y cerrar la conexión
+
 conexion.commit()
 conexion.close()
 
