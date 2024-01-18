@@ -50,9 +50,9 @@ def view():
     return rows
 
 def insert_results(list):
-    for result in results:
+    for item in list:
         # print(f" resultado {resultado}")
-        cursor.execute("INSERT INTO results (data) VALUES (%s)", (json.dumps(result),))
+        cursor.execute("INSERT INTO results (data) VALUES (%s)", (json.dumps(item),))
 
 insert_results(results)
 print(view())
